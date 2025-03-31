@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./logs:/logs
+    depends_on:
+      - db
+
+  db:
+    image: "postgres:13"
+    environment:
+      POSTGRES_USER: "django"
+      POSTGRES_PASSWORD: "django"
+      POSTGRES_DB: "django"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  logs:

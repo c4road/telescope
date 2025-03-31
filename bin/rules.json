@@ -1,0 +1,41 @@
+{
+    "companies": ["https://www.cloudlogiclabs.com", "https://www.datasynctech.io"],
+    "rules": [
+        {
+            "input": "total_employees",
+            "feature_name": "head_count_feature",
+            "operation": {
+                "greater_than": 40
+            },
+            "match": 1,
+            "default": 0
+        },
+        {
+            "input": "founded_year",
+            "feature_name": "age_feature",
+            "operation": {
+                "less_than": 2021
+            },
+            "match": 1,
+            "default": 0
+        },
+        {
+            "input": "headquarters_city",
+            "feature_name": "usa_based_feature",
+            "operation": {
+                "equal": "Boston (USA)"
+            },
+            "match": 1,
+            "default": 0
+        },
+        {
+            "input": "industry",
+            "feature_name": "is_saas_feature",
+            "operation": {
+                "equal": "Software"
+            },
+            "match": 1,
+            "default": 0
+        }
+    ]
+}

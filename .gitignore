@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+venv/
+ENV/
+env/
+*.egg-info/
+*.eggs/
+.pytest_cache/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+sdist/
+*.whl
+*.tar.gz
+
+# Log files
+*.log
+logs/
+myproject.log
+
+# Database
+*.sqlite3
+db.sqlite3
+*.db
+*.bak
+
+# IDE specific files
+.idea/
+*.swp
+*.swo
+*.vscode/
+
+# Docker
+/docker-compose.override.yml
+/docker-compose.prod.yml
+
+# Secrets
+.secrets.baseline
+
+# OS generated files
+._*
