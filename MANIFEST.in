@@ -1,0 +1,10 @@
+include README.md
+include manage.py
+include Dockerfile
+include docker-compose.yml
+include company-dataset.csv
+include requirements.txt
+include dev_requirements.txt
+recursive-include company/templates *
+recursive-include company/static *
+recursive-include bin *

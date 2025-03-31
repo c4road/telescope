@@ -4,7 +4,7 @@ install:
 	pip install -r requirements.txt
 
 build:
-	docker build -t myproject . --no-cache
+	docker build -t telescope . --no-cache
 
 run:
 	docker-compose up
@@ -50,3 +50,7 @@ build-package: clean
 	VERSION=$(VERSION) python setup.py bdist_wheel
 	python setup.py bdist_wheel --version $(VERSION)
 	ls -l dist
+
+clean-test: ## remove test and coverage artifacts
+	rm -fr .tox/
+	rm -fr .pytest_cache

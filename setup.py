@@ -27,8 +27,9 @@ setup(
     author_email="alberto.rincones@code4road.com",
     url="https://github.com/c4road/telescope",
     download_url="",
-    keywords=["finance"],
+    keywords=["finance", "investment", "vc", "venture capital"],
     install_requires=install_requires,
+    packages=["company", "telescope"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Information Technology",

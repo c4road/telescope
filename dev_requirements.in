@@ -1,0 +1,6 @@
+pip-tools
+pre-commit
+pytest
+pytest-django
+pytest-cov
+detect-secrets
