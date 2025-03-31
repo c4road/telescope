@@ -4,7 +4,7 @@ install:
 	pip install -r requirements.txt
 
 build:
-	docker build -t telescope . --no-cache
+	docker-compose build web
 
 run:
 	docker-compose up
@@ -28,7 +28,7 @@ process_companies:
 	./bin/process_company.sh
 
 run_tests:
-	pytest
+	docker-compose exec web pytest
 
 clean: clean-build clean-pyc clean-test
 

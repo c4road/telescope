@@ -2,7 +2,7 @@
 
 API_ENDPOINT="http://localhost:8000/import_company_data/"
 
-CSV_FILE="companies.csv"
+CSV_FILE="company-dataset.csv"
 
 if [ ! -f "$CSV_FILE" ]; then
   echo "Error: CSV file '$CSV_FILE' not found."

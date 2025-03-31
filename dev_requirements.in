@@ -5,3 +5,4 @@ pytest-django
 pytest-cov
 detect-secrets
 pyment
+wheel
