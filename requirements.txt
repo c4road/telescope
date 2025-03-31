@@ -4,22 +4,48 @@
 #
 #    pip-compile requirements.in
 #
---index-url https://aws:eyJ2ZXIiOjEsImlzdSI6MTczNjUxOTQ3OCwiZW5jIjoiQTEyOEdDTSIsInRhZyI6IlhxMmp3SGRpbW96WjVfd2M4YnZEZmciLCJleHAiOjE3MzY1NjI2NzgsImFsZyI6IkExMjhHQ01LVyIsIml2IjoiVWdUNFA1bWMyS2pKRFkzTyJ9.ym_vZFHKxIbNpREdYB0BoQ.5hvQx6aTyCq8gLnV.2_ZRYzhDVJQ2ikNq7TT0fdxjbC6Rcayk6TLHQ3_R680MVmSLdl6eZBMqHXf_Xko3CSbyI7mWqaAOKGi40jmvRi6qNVhZ-U7JvbeaDX_TohCL2ex_ObgKJKnuyoC6gezRsQAhHooMJ-7hkKgd4rZlysRC_uekmWadpNuJYYv53MSz4ioU6uz1aMW14wqFlmjS3WZnVaf96dAzEbB2V_ujg6L7Mxg-m-zufduN1v-690DF6dD5okQdf2-Zcjg65A9Mmtr70moUYOyJxCHV7fohaqy5LmcPSIc75Pr8VxlgZgKMEPCOJGKCdeYVKyLL1Dc-Ol-IhGW2XH1kIvQzO_vhcPppgkygStDQG-lTIhoixGhHQZc2J8gY8n9yhE2LOAMDAr_QXjmohndhlkWWOHC9mlYuR6PzQ71brFpfm2blrK66ahyd7H0chKvQflmBaeCKhmTk2-OCRfHQvrv9xmp9dHd9S3O6Hbj86EVEDmcdj7E7ELUa1aUoVc1W_4ZZyb9NyepMJCuHyFZldPLB5sO0qcY_Xy3LpLT41WzNup3TOoOyK-7O655zbgzypPlHbYXuoiM64P0pa_aKHZzpGUBtG0SLcztrE8Y090gzIsDgKyTdjhLU_uEdjFXEiK0d32_I0bGTfHIWoOZLnHvxMw_F_d05eVZd2TUwnrCwsjVtV3rVS9Xs3-PgYjYlgLA5ewaY0J0bSw7NVIAvDO5QxWaR9ectVPAszTtBIGdyiqyYXXpqz2n5avPpLxhw4ICf5yxcDLkSJlOugMygGz-71SM3gOiVUd0BtYHe-Jd3Xv_C4E1jAcm8-pdoyU31nZENlpp6UNzp9v-hBYVfj2F10kWlfWVw74PhHB7KEoG8w1PAIgJ30vXRP9pZmIfTJ-sUZLwp9ZXKnmZRzVLvMpHwDF1k6DPEB4GIrJWQ9wo3X7K1w-O8wLsH04h-y1ZFBB3ybF_ejPDbxtctUlr-dw8fCih58XjFp-Vb4zWLE--wdOa9wDlShzFdM52vMdpLcDBQz-JaWrdMmhq9GkfP1VR_92H-Trm7VocP7eJ1HUgPSoSSo09QG0isrrJYgwZ_xqBFgJU.yoRTRQ2nkJbkQON0GuyENg@earningspy-923699018646.d.codeartifact.us-east-1.amazonaws.com/pypi/EarningSpy/simple/
---extra-index-url https://pypi.org/simple
-
 asgiref==3.8.1
     # via django
+attrs==25.3.0
+    # via
+    #   jsonschema
+    #   referencing
 django==4.2.11
     # via
     #   -r requirements.in
     #   djangorestframework
+    #   drf-spectacular
 djangorestframework==3.14.0
+    # via
+    #   -r requirements.in
+    #   drf-spectacular
+drf-spectacular==0.28.0
     # via -r requirements.in
+inflection==0.5.1
+    # via drf-spectacular
+jsonschema==4.23.0
+    # via drf-spectacular
+jsonschema-specifications==2024.10.1
+    # via jsonschema
 psycopg2-binary==2.9.9
     # via -r requirements.in
 pytz==2025.2
     # via djangorestframework
+pyyaml==6.0.2
+    # via drf-spectacular
+referencing==0.36.2
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+rpds-py==0.24.0
+    # via
+    #   jsonschema
+    #   referencing
 sqlparse==0.5.3
     # via django
 typing-extensions==4.13.0
-    # via asgiref
+    # via
+    #   asgiref
+    #   referencing
+uritemplate==4.1.1
+    # via drf-spectacular

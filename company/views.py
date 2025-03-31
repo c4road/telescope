@@ -16,6 +16,9 @@ logger.setLevel(logging.INFO)
 
 @api_view(["POST"])
 def import_company_data(request):
+    """
+    :param request:
+    """
     if request.FILES.get("file"):
         csv_file = request.FILES["file"]
         decoded_file = csv_file.read().decode("utf-8")
@@ -57,6 +60,9 @@ def import_company_data(request):
 
 @api_view(["GET"])
 def get_companies(request):
+    """
+    :param request:
+    """
     companies = Company.objects.all()
     serializer = CompanySerializer(companies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -64,6 +70,9 @@ def get_companies(request):
 
 @api_view(["POST"])
 def process_company(request):
+    """
+    :param request:
+    """
     data = request.data
     company_urls = data.get("companies", [])
     rules = data.get("rules", [])
@@ -113,6 +122,9 @@ def process_company(request):
 
 
 def validate_rules(rules):
+    """
+    :param rules:
+    """
 
     validated_rules = []
     for rule_data in rules:
@@ -129,6 +141,9 @@ def validate_rules(rules):
 
 
 def pre_process_hook(company):
+    """
+    :param company:
+    """
 
     logger.info(f"Getting pre-processing values for company: {company.company_name}")
     current_year = timezone.now().year
@@ -141,7 +156,7 @@ def pre_process_hook(company):
 
     company.company_age = company_age
     company.is_usa_based = is_usa_based
-    company.is_saas = is_saas
+    company.is_saas = is_saas_company(company)
     company.last_processed = timezone.now()
     logger.info(
         f"Company age: {company_age}, USA based: {is_usa_based}, SaaS: {is_saas}"
@@ -150,12 +165,13 @@ def pre_process_hook(company):
     return company
 
 
-def validage_is_saas(company):
-    is_saas = company.industry == "Software"
-    return
-
-
 def get_feature_value(company, rule):
+    """
+
+    :param company:
+    :param rule:
+
+    """
 
     logger.info(f"Getting feature value for rule: {rule.input}")
     feature_value = None
@@ -168,6 +184,13 @@ def get_feature_value(company, rule):
 
 
 def apply_operation(rule, company, feature_value):
+    """
+
+    :param rule:
+    :param company:
+    :param feature_value:
+
+    """
 
     logger.info(f"Applying rule: {rule.input} {rule.operation} {feature_value}")
     matched = False
@@ -206,3 +229,28 @@ def apply_operation(rule, company, feature_value):
     logger.info(f"Matched: {matched}")
 
     return matched
+
+
+def is_saas_company(company):
+    """
+    Determines if a company is a SaaS company based on its description and industry.
+    """
+    saas_keywords = [
+        "saas",
+        "software as a service",
+        "subscription",
+        "cloud-based",
+        "cloud based",
+        "hosted solution",
+        "on-demand software",
+        "web-based application",
+        "software platform",
+    ]
+
+    text = f"{company.description} {company.industry}".lower()
+
+    for keyword in saas_keywords:
+        if keyword in text:
+            return True
+
+    return False
