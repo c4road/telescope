@@ -99,7 +99,7 @@ def process_company(request):
         for rule in validated_rules:
 
             feature_value = get_feature_value(company, rule)
-            if not feature_value:
+            if feature_value is None:
                 logger.error(
                     f"Feature value not found for rule: {rule.input}, skipping"
                 )
@@ -111,11 +111,20 @@ def process_company(request):
         for rule.feature_name, value in feature_values.items():
             setattr(company, rule.feature_name, value)
 
+        all_companies = Company.objects.all()
+        similar_companies = get_similar_companies(company, all_companies)
+
         logger.info(f"Processed data: {feature_values}")
         serializer = CompanySerializer(company)
         company_data = serializer.data
         company_data.update(feature_values)
+
+        # Similar companies based on the description and industry of
+        # the processed companies
+        company_data["similar_companies"] = similar_companies
+
         processed_data.append(company_data)
+
         logger.info(f"Processed data: {company_data}")
 
     return Response(processed_data, status=status.HTTP_200_OK)
@@ -152,16 +161,16 @@ def pre_process_hook(company):
     is_usa_based = (
         company.headquarters_city is not None and "(USA)" in company.headquarters_city
     )
-    is_saas = company.industry == "Software"
 
     company.company_age = company_age
     company.is_usa_based = is_usa_based
     company.is_saas = is_saas_company(company)
     company.last_processed = timezone.now()
-    logger.info(
-        f"Company age: {company_age}, USA based: {is_usa_based}, SaaS: {is_saas}"
-    )
 
+    logger.info(
+        f"Company age: {company.company_age}, USA based: {is_usa_based}, SaaS: {company.is_saas}"
+    )
+    company.save()
     return company
 
 
@@ -179,7 +188,7 @@ def get_feature_value(company, rule):
         feature_value = getattr(company, rule.input)
     except AttributeError:
         logger.error(f"Error: Invalid feature name - {rule.input}")
-
+        raise
     return feature_value
 
 
@@ -223,9 +232,8 @@ def apply_operation(rule, company, feature_value):
         and "equal" in rule.operation
         and feature_value is not None
     ):
-        matched = (
-            company.industry == "Software" and feature_value == rule.operation["equal"]
-        )
+        matched = company.is_saas == rule.operation["equal"]
+
     logger.info(f"Matched: {matched}")
 
     return matched
@@ -235,6 +243,7 @@ def is_saas_company(company):
     """
     Determines if a company is a SaaS company based on its description and industry.
     """
+    logger.info(f"Checking if {company.company_name} is a SaaS company")
     saas_keywords = [
         "saas",
         "software as a service",
@@ -245,12 +254,51 @@ def is_saas_company(company):
         "on-demand software",
         "web-based application",
         "software platform",
+        "software",
     ]
 
     text = f"{company.description} {company.industry}".lower()
 
     for keyword in saas_keywords:
         if keyword in text:
+            logger.info(f"{company.company_name} is a SaaS company")
             return True
-
+    logger.info(f"{company.company_name} is not a SaaS company")
     return False
+
+
+def calculate_similarity(company1, company2):
+    """
+    Calculates the similarity between two companies based on their description and industry.
+    """
+    logger.info(
+        f"Calculating similarity between {company1.company_name} and {company2.company_name}"
+    )
+    keywords1 = f"{company1.description} {company1.industry}".lower().split()
+    keywords2 = f"{company2.description} {company2.industry}".lower().split()
+
+    common_keywords = set(keywords1) & set(keywords2)
+    logger.info(f"Common keywords: {common_keywords}")
+    return len(common_keywords)
+
+
+def get_similar_companies(company, companies, num_recommendations=3):
+    """
+    Finds the most similar companies for a given company.
+    """
+    logger.info(f"Finding similar companies for {company.company_name}")
+    similarities = []
+    for other_company in companies:
+        if company == other_company:
+            continue
+        similarity = calculate_similarity(company, other_company)
+        similarities.append((other_company, similarity))
+
+    similarities.sort(key=lambda x: x[1], reverse=True)
+
+    similar_companies = [
+        other_company.company_name
+        for other_company, _ in similarities[:num_recommendations]
+    ]
+    logger.info(f"Similar companies: {similar_companies}")
+    return similar_companies

@@ -17,9 +17,9 @@ class Company(models.Model):
     imported_date = models.DateTimeField(auto_now_add=True)
     last_processed = models.DateTimeField(auto_now=True)
 
-    company_age = models.IntegerField(blank=True, null=True)  # Add this line
-    is_usa_based = models.BooleanField(blank=True, null=True)  # Add this line
-    is_saas = models.BooleanField(blank=True, null=True)  # Add this line
+    company_age = models.IntegerField(blank=True, null=True)
+    is_usa_based = models.BooleanField(blank=True, null=True)
+    is_saas = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         return self.company_name

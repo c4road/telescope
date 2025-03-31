@@ -117,8 +117,6 @@ CloudLogic Labs,https://www.cloudlogiclabs.com,2021,38,Boston (USA),"{""USA"": 3
 
         # Assert that the feature values are correct based on the rules
         self.assertEqual(response.data[0]["head_count_feature"], 1)
-        self.assertEqual(
-            response.data[0]["age_feature"], 1
-        )  # Company age is 5 (2025 - 2020)
+        self.assertEqual(response.data[0]["age_feature"], 1)
         self.assertEqual(response.data[0]["usa_based_feature"], 1)
         self.assertEqual(response.data[0]["is_saas_feature"], 1)
