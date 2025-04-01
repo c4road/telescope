@@ -35,6 +35,5 @@ setup(
         "Intended Audience :: Information Technology",
         "Programming Language :: Python :: 3.10",
     ],
-    package_data={"": ["telescope/company-dataset.csv"]},
     include_package_data=True,
 )

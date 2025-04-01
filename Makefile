@@ -48,7 +48,7 @@ clean-pyc: ## remove Python file artifacts
 build-package: clean
 	@echo "Building version $(VERSION)"
 	VERSION=$(VERSION) python setup.py bdist_wheel
-	python setup.py bdist_wheel --version $(VERSION)
+	python setup.py sdist bdist_wheel --version $(VERSION)
 	ls -l dist
 
 clean-test: ## remove test and coverage artifacts
